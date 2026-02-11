@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-02-04T10:00:00.000Z" agent="Claude" version="22.1.0" type="device">
+  <diagram id="sequence-rappel" name="Sequence Rappel Fin Mission">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Titre -->
+        <mxCell id="title" value="DIAGRAMME DE SEQUENCE - RAPPEL FIN DE MISSION (J-3)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=26;fontStyle=1;fontColor=#1a365d;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="800" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Architecture Microservices avec Apache Kafka" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=2;fontColor=#718096;" vertex="1" parent="1">
+          <mxGeometry x="500" y="65" width="600" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- ========== ACTEURS ========== -->
+        <mxCell id="actor-cron" value="Cron&#xa;Timer" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#4a5568;strokeColor=#2d3748;" vertex="1" parent="1">
+          <mxGeometry x="65" y="100" width="30" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="actor-reminder" value="mission-reminder&#xa;-service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c53030;strokeColor=#9b2c2c;fontColor=#ffffff;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="140" y="100" width="120" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="actor-mfrepo" value="MissionFreelance&#xa;Repository" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c6f6d5;strokeColor=#276749;fontStyle=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="310" y="100" width="110" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="actor-db1" value="PostgreSQL" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#276749;strokeColor=#22543d;fontColor=#ffffff;fontStyle=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="470" y="95" width="90" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="actor-kafka" value="Apache Kafka&#xa;topic: mission-reminder" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a202c;strokeColor=#4a5568;fontColor=#ffffff;fontStyle=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="610" y="100" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="actor-notif" value="notification&#xa;-service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#805ad5;strokeColor=#6b46c1;fontColor=#ffffff;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="800" y="100" width="110" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="actor-notifrepo" value="Notification&#xa;Repository" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d8fd;strokeColor=#805ad5;fontStyle=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="960" y="100" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="actor-db2" value="PostgreSQL" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#276749;strokeColor=#22543d;fontColor=#ffffff;fontStyle=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="95" width="90" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="actor-simp" value="SimpMessaging&#xa;Template" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fefcbf;strokeColor=#d69e2e;fontStyle=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1250" y="100" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="actor-ws" value="WebSocket&#xa;Broker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d69e2e;strokeColor=#b7791f;fontColor=#ffffff;fontStyle=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="100" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="actor-client" value="Client React&#xa;(Freelancer)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3182ce;strokeColor=#2c5282;fontColor=#ffffff;fontStyle=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1550" y="100" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ========== LIGNES DE VIE ========== -->
+        <mxCell id="line-cron" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#4a5568;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="80" y="160" as="sourcePoint" />
+            <mxPoint x="80" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="line-reminder" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#c53030;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="150" as="sourcePoint" />
+            <mxPoint x="200" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="line-mfrepo" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#276749;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="365" y="150" as="sourcePoint" />
+            <mxPoint x="365" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="line-db1" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#276749;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="515" y="155" as="sourcePoint" />
+            <mxPoint x="515" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="line-kafka" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#4a5568;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="680" y="150" as="sourcePoint" />
+            <mxPoint x="680" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="line-notif" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#805ad5;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="855" y="150" as="sourcePoint" />
+            <mxPoint x="855" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="line-notifrepo" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#805ad5;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1010" y="150" as="sourcePoint" />
+            <mxPoint x="1010" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="line-db2" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#276749;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1155" y="155" as="sourcePoint" />
+            <mxPoint x="1155" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="line-simp" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#d69e2e;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1300" y="150" as="sourcePoint" />
+            <mxPoint x="1300" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="line-ws" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#d69e2e;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1450" y="150" as="sourcePoint" />
+            <mxPoint x="1450" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="line-client" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#3182ce;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1600" y="150" as="sourcePoint" />
+            <mxPoint x="1600" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ========== PHASE 1: DECLENCHEMENT ET RECHERCHE ========== -->
+        <mxCell id="phase1-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#c53030;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="190" width="540" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="phase1-label" value="PHASE 1: Declenchement et Recherche des missions" style="text;html=1;strokeColor=none;fillColor=#c53030;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=12;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="50" y="200" width="350" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Message 1: Cron -> Scheduler -->
+        <mxCell id="msg1" value="1. @Scheduled(cron=&quot;0 0 9 * * *&quot;) trigger" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#2d3748;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="80" y="250" as="sourcePoint" />
+            <mxPoint x="200" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 2: Calcul date -->
+        <mxCell id="msg2-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fed7e2;strokeColor=#c53030;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="270" width="20" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="msg2-label" value="2. targetDate = LocalDate.now().plusDays(3)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#4a5568;" vertex="1" parent="1">
+          <mxGeometry x="215" y="278" width="280" height="15" as="geometry" />
+        </mxCell>
+
+        <!-- Message 3: Scheduler -> Repository -->
+        <mxCell id="msg3" value="3. findByDateFinAndNotificationEnvoyeeFalse(targetDate)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#2d3748;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="320" as="sourcePoint" />
+            <mxPoint x="365" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 4: Repository -> DB -->
+        <mxCell id="msg4" value="4. SELECT * FROM mission_freelance WHERE date_fin=? AND notification_envoyee=false" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#276749;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="365" y="350" as="sourcePoint" />
+            <mxPoint x="515" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 5: DB -> Repository (retour) -->
+        <mxCell id="msg5" value="5. ResultSet (missions)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#38a169;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="515" y="380" as="sourcePoint" />
+            <mxPoint x="365" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 6: Repository -> Scheduler (retour) -->
+        <mxCell id="msg6" value="6. List&lt;MissionFreelance&gt; missions" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#38a169;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="365" y="410" as="sourcePoint" />
+            <mxPoint x="200" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ========== PHASE 2: PRODUCTION KAFKA ========== -->
+        <mxCell id="phase2-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#1a202c;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="420" width="710" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="phase2-label" value="PHASE 2: Production des messages Kafka" style="text;html=1;strokeColor=none;fillColor=#1a202c;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=12;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="50" y="430" width="300" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Loop box -->
+        <mxCell id="loop-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#dd6b20;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="55" y="470" width="680" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="loop-label" value="LOOP [pour chaque mission dans la liste]" style="text;html=1;strokeColor=none;fillColor=#dd6b20;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="60" y="475" width="260" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Message 7: Build event -->
+        <mxCell id="msg7-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fed7e2;strokeColor=#c53030;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="510" width="20" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="msg7-label" value="7. Build ReminderEvent(freelancerId, missionId, dateFin, message)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#4a5568;" vertex="1" parent="1">
+          <mxGeometry x="215" y="520" width="380" height="15" as="geometry" />
+        </mxCell>
+
+        <!-- Message 8: Scheduler -> Kafka -->
+        <mxCell id="msg8" value="8. kafkaTemplate.send(&quot;mission-reminder&quot;, freelancerId, reminderEvent)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#c53030;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="570" as="sourcePoint" />
+            <mxPoint x="680" y="570" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 9: Kafka ack -->
+        <mxCell id="msg9" value="9. ack (message persiste dans partition)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#38a169;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="680" y="600" as="sourcePoint" />
+            <mxPoint x="200" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 10: Update flag -->
+        <mxCell id="msg10" value="10. mission.setNotificationEnvoyee(true)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#2d3748;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="640" as="sourcePoint" />
+            <mxPoint x="365" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 11: Save flag -->
+        <mxCell id="msg11" value="11. UPDATE mission_freelance SET notification_envoyee=true WHERE id=?" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#276749;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="365" y="670" as="sourcePoint" />
+            <mxPoint x="515" y="670" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 12: DB ack -->
+        <mxCell id="msg12" value="12. updated" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#38a169;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="515" y="695" as="sourcePoint" />
+            <mxPoint x="365" y="695" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Anti-doublon note -->
+        <mxCell id="antidoublon-note" value="Anti-doublon:&#xa;Evite rappels multiples" style="text;html=1;strokeColor=#c53030;fillColor=#fed7e2;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=9;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="648" width="110" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ========== PHASE 3: CONSUMPTION ET NOTIFICATION ========== -->
+        <mxCell id="phase3-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#805ad5;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="730" width="1070" height="540" as="geometry" />
+        </mxCell>
+        <mxCell id="phase3-label" value="PHASE 3: Consumption Kafka et Envoi Notification (ASYNCHRONE)" style="text;html=1;strokeColor=none;fillColor=#805ad5;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=12;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="610" y="740" width="420" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Async note -->
+        <mxCell id="async-note" value="DECOUPLE&#xa;(asynchrone)" style="text;html=1;strokeColor=#805ad5;fillColor=#e9d8fd;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="770" width="90" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Message 13: Kafka -> NotifService (poll) -->
+        <mxCell id="msg13" value="13. @KafkaListener poll()" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#805ad5;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="855" y="820" as="sourcePoint" />
+            <mxPoint x="680" y="820" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 14: Kafka -> NotifService (record) -->
+        <mxCell id="msg14" value="14. ConsumerRecord&lt;String, ReminderEvent&gt;" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#4a5568;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="680" y="850" as="sourcePoint" />
+            <mxPoint x="855" y="850" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 15: Deserialize -->
+        <mxCell id="msg15-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e9d8fd;strokeColor=#805ad5;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="845" y="870" width="20" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="msg15-label" value="15. ReminderEvent event = record.value()" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#4a5568;" vertex="1" parent="1">
+          <mxGeometry x="870" y="878" width="260" height="15" as="geometry" />
+        </mxCell>
+
+        <!-- Message 16: Create notification -->
+        <mxCell id="msg16-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e9d8fd;strokeColor=#805ad5;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="845" y="915" width="20" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="msg16-label" value="16. Notification notification = new Notification()&#xa;    notification.setType(RAPPEL_FIN_MISSION)&#xa;    notification.setMessage(event.getMessage())" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#4a5568;" vertex="1" parent="1">
+          <mxGeometry x="870" y="915" width="300" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Message 17: NotifService -> NotifRepo -->
+        <mxCell id="msg17" value="17. notificationRepository.save(notification)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#2d3748;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="855" y="970" as="sourcePoint" />
+            <mxPoint x="1010" y="970" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 18: NotifRepo -> DB -->
+        <mxCell id="msg18" value="18. INSERT INTO notifications (freelancer_id, mission_id, type, message, is_read)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#276749;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1010" y="1000" as="sourcePoint" />
+            <mxPoint x="1155" y="1000" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 19: DB -> NotifRepo (retour) -->
+        <mxCell id="msg19" value="19. Notification saved (id generated)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#38a169;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1155" y="1030" as="sourcePoint" />
+            <mxPoint x="1010" y="1030" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 20: NotifRepo -> NotifService (retour) -->
+        <mxCell id="msg20" value="20. return savedNotification" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#38a169;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1010" y="1060" as="sourcePoint" />
+            <mxPoint x="855" y="1060" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 21: Convert to DTO -->
+        <mxCell id="msg21-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e9d8fd;strokeColor=#805ad5;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="845" y="1080" width="20" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="msg21-label" value="21. NotificationDTO dto = NotificationDTO.fromEntity(notification)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#4a5568;" vertex="1" parent="1">
+          <mxGeometry x="870" y="1085" width="380" height="15" as="geometry" />
+        </mxCell>
+
+        <!-- Message 22: NotifService -> SimpMessaging -->
+        <mxCell id="msg22" value="22. messagingTemplate.convertAndSend(&quot;/topic/notifications/&quot;+freelancerId, dto)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#d69e2e;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="855" y="1130" as="sourcePoint" />
+            <mxPoint x="1300" y="1130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 23: SimpMessaging -> WebSocket Broker -->
+        <mxCell id="msg23" value="23. publish(/topic/notifications/{freelancerId}, dto)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#d69e2e;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1300" y="1160" as="sourcePoint" />
+            <mxPoint x="1450" y="1160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Message 24: WebSocket -> Client (PUSH) -->
+        <mxCell id="msg24" value="24. STOMP MESSAGE frame {NotificationDTO JSON}" style="endArrow=classic;html=1;strokeWidth=3;strokeColor=#e53e3e;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1450" y="1195" as="sourcePoint" />
+            <mxPoint x="1600" y="1195" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="push-note" value="PUSH&#xa;temps reel" style="text;html=1;strokeColor=#c53030;fillColor=#fed7e2;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=9;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1495" y="1168" width="60" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Message 25: Commit offset -->
+        <mxCell id="msg25" value="25. consumer.commitSync() // offset commite apres succes" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#805ad5;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="855" y="1240" as="sourcePoint" />
+            <mxPoint x="680" y="1240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Client actions -->
+        <mxCell id="client-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ebf8ff;strokeColor=#3182ce;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1540" y="1210" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="client-title" value="Actions Frontend:" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=1;fontColor=#3182ce;" vertex="1" parent="1">
+          <mxGeometry x="1545" y="1215" width="110" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="client-content" value="- handleNewNotification()&#xa;- Toast.info(message)&#xa;- unreadCount++&#xa;- notifications.push(dto)&#xa;- Re-render UI" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#4a5568;" vertex="1" parent="1">
+          <mxGeometry x="1545" y="1232" width="110" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- ========== LEGENDE ========== -->
+        <mxCell id="legend-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f7fafc;strokeColor=#a0aec0;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1320" width="1630" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-title" value="LEGENDE:" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#2d3748;" vertex="1" parent="1">
+          <mxGeometry x="50" y="1330" width="80" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Legend items row 1 -->
+        <mxCell id="leg1-arrow" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#2d3748;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="140" y="1345" as="sourcePoint" />
+            <mxPoint x="200" y="1345" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg1-text" value="Appel synchrone" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="205" y="1338" width="100" height="15" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg2-arrow" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#38a169;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="320" y="1345" as="sourcePoint" />
+            <mxPoint x="380" y="1345" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg2-text" value="Retour" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="385" y="1338" width="50" height="15" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg3-arrow" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#c53030;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="450" y="1345" as="sourcePoint" />
+            <mxPoint x="510" y="1345" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg3-text" value="Produce Kafka" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="515" y="1338" width="90" height="15" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg4-arrow" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#805ad5;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="620" y="1345" as="sourcePoint" />
+            <mxPoint x="680" y="1345" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg4-text" value="Consume Kafka" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="685" y="1338" width="95" height="15" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg5-arrow" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#276749;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="795" y="1345" as="sourcePoint" />
+            <mxPoint x="855" y="1345" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg5-text" value="Requete SQL" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="860" y="1338" width="80" height="15" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg6-arrow" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#d69e2e;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="955" y="1345" as="sourcePoint" />
+            <mxPoint x="1015" y="1345" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg6-text" value="WebSocket" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="1338" width="70" height="15" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg7-arrow" value="" style="endArrow=classic;html=1;strokeWidth=3;strokeColor=#e53e3e;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1105" y="1345" as="sourcePoint" />
+            <mxPoint x="1165" y="1345" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg7-text" value="PUSH client" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="1338" width="75" height="15" as="geometry" />
+        </mxCell>
+
+        <!-- Legend items row 2 -->
+        <mxCell id="leg8-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e9d8fd;strokeColor=#805ad5;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="1362" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg8-text" value="Traitement interne" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="165" y="1358" width="110" height="15" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg9-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#dd6b20;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1362" width="40" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg9-text" value="Boucle (LOOP)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="335" y="1358" width="90" height="15" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg10-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#c53030;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="1362" width="40" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg10-text" value="Phase/Section" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="485" y="1358" width="90" height="15" as="geometry" />
+        </mxCell>
+
+        <!-- Etapes summary -->
+        <mxCell id="steps-summary" value="RESUME: 1-6 Recherche missions | 7-12 Production Kafka (boucle) | 13-25 Consumption + Notification (async)" style="text;html=1;strokeColor=none;fillColor=#e2e8f0;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontColor=#2d3748;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="1355" width="700" height="25" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

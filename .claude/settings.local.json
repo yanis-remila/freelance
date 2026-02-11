@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls \"C:\\\\Users\\\\yanis.remila\\\\OneDrive - Gedeon - SIPAOF\\\\Téléchargements\\\\freelance\\\\freelance\\\\src\\\\main\\\\java\\\\com\\\\example\\\\freelance\\\\service\\\\listeners\"\" 2>&1 || echo \"Directory empty or not found \")"
+    ]
+  }
+}

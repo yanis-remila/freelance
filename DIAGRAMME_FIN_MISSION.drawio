@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-01-30T10:00:00.000Z" agent="Claude" version="22.1.0" type="device">
+  <diagram id="fin-mission-flux" name="Flux Rappel Fin Mission">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Titre Principal -->
+        <mxCell id="title" value="NOTIFICATION DE FIN DE MISSION - RAPPEL J-3" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=28;fontStyle=1;fontColor=#1a365d;" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="600" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Systeme automatique de rappel 3 jours avant la fin d'une mission" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=2;fontColor=#718096;" vertex="1" parent="1">
+          <mxGeometry x="350" y="65" width="500" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- ========== ETAPE 1: SCHEDULER ========== -->
+        <mxCell id="step1-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff5f5;strokeColor=#c53030;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="120" width="280" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="step1-num" value="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#c53030;strokeColor=#9b2c2c;fontColor=#ffffff;fontStyle=1;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="110" y="130" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="step1-title" value="SCHEDULER (Tache planifiee)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#c53030;" vertex="1" parent="1">
+          <mxGeometry x="160" y="130" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="step1-content" value="MissionEndReminderScheduler&#xa;&#xa;Cron: 0 0 9 * * *&#xa;(Tous les jours a 9h00)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=12;fontColor=#4a5568;" vertex="1" parent="1">
+          <mxGeometry x="120" y="170" width="250" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Fleche 1 -> 2 -->
+        <mxCell id="arrow1" value="" style="endArrow=classic;html=1;strokeWidth=3;strokeColor=#805ad5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="step2-box">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="180" as="sourcePoint" />
+            <mxPoint x="480" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ========== ETAPE 2: CALCUL DATE ========== -->
+        <mxCell id="step2-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#805ad5;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="480" y="120" width="280" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="step2-num" value="2" style="ellipse;whiteSpace=wrap;html=1;fillColor=#805ad5;strokeColor=#6b46c1;fontColor=#ffffff;fontStyle=1;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="490" y="130" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="step2-title" value="CALCUL DATE CIBLE" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#805ad5;" vertex="1" parent="1">
+          <mxGeometry x="540" y="130" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="step2-content" value="date_cible = LocalDate.now()&#xa;              .plusDays(3)&#xa;&#xa;Ex: Si aujourd'hui = 30/01&#xa;    Alors cible = 02/02" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#4a5568;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="500" y="170" width="250" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Fleche 2 -> 3 -->
+        <mxCell id="arrow2" value="" style="endArrow=classic;html=1;strokeWidth=3;strokeColor=#805ad5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="step3-box">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="760" y="180" as="sourcePoint" />
+            <mxPoint x="860" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ========== ETAPE 3: REQUETE SQL ========== -->
+        <mxCell id="step3-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0fff4;strokeColor=#276749;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="860" y="120" width="320" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="step3-num" value="3" style="ellipse;whiteSpace=wrap;html=1;fillColor=#276749;strokeColor=#22543d;fontColor=#ffffff;fontStyle=1;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="870" y="130" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="step3-title" value="REQUETE BASE DE DONNEES" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#276749;" vertex="1" parent="1">
+          <mxGeometry x="920" y="130" width="250" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="step3-content" value="SELECT * FROM mission_freelance&#xa;WHERE date_fin = date_cible&#xa;AND notification_envoyee = false" style="text;html=1;strokeColor=none;fillColor=#e2e8f0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;fontColor=#2d3748;fontFamily=Courier New;spacingLeft=5;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="880" y="170" width="280" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Fleche 3 -> 4 (vers le bas) -->
+        <mxCell id="arrow3" value="" style="endArrow=classic;html=1;strokeWidth=3;strokeColor=#805ad5;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1020" y="240" as="sourcePoint" />
+            <mxPoint x="1020" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ========== ETAPE 4: BOUCLE DE TRAITEMENT ========== -->
+        <mxCell id="step4-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffaf0;strokeColor=#dd6b20;strokeWidth=3;dashed=1;dashPattern=8 8;" vertex="1" parent="1">
+          <mxGeometry x="100" y="300" width="1080" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="step4-header" value="4  POUR CHAQUE MISSION TROUVEE (Boucle)" style="text;html=1;strokeColor=none;fillColor=#dd6b20;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=14;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="400" y="310" width="400" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Sous-etape 4a: Creer notification -->
+        <mxCell id="step4a-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ebf8ff;strokeColor=#3182ce;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="130" y="360" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="step4a-title" value="4a. Creer Notification" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#3182ce;" vertex="1" parent="1">
+          <mxGeometry x="140" y="370" width="200" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="step4a-content" value="Type: RAPPEL_FIN_MISSION&#xa;Message: &quot;Votre mission&#xa;se termine dans 3 jours&quot;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#4a5568;" vertex="1" parent="1">
+          <mxGeometry x="145" y="400" width="195" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Fleche 4a -> 4b -->
+        <mxCell id="arrow4a" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#805ad5;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="410" as="sourcePoint" />
+            <mxPoint x="390" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Sous-etape 4b: Sauvegarder -->
+        <mxCell id="step4b-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0fff4;strokeColor=#276749;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="390" y="360" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="step4b-title" value="4b. Sauvegarder en BDD" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#276749;" vertex="1" parent="1">
+          <mxGeometry x="400" y="370" width="180" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="step4b-content" value="INSERT INTO notifications&#xa;(freelancer_id, mission_id,&#xa;type, message, is_read)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#4a5568;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="400" y="400" width="180" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Fleche 4b -> 4c -->
+        <mxCell id="arrow4b" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#805ad5;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="590" y="410" as="sourcePoint" />
+            <mxPoint x="630" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Sous-etape 4c: Envoyer WebSocket -->
+        <mxCell id="step4c-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fefcbf;strokeColor=#d69e2e;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="630" y="360" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="step4c-title" value="4c. Envoyer WebSocket" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#d69e2e;" vertex="1" parent="1">
+          <mxGeometry x="640" y="370" width="180" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="step4c-content" value="Destination:&#xa;/topic/notifications/&#xa;{freelancerId}&#xa;&#xa;Payload: NotificationDTO" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#4a5568;" vertex="1" parent="1">
+          <mxGeometry x="645" y="395" width="175" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Fleche 4c -> 4d -->
+        <mxCell id="arrow4c" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#805ad5;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="830" y="410" as="sourcePoint" />
+            <mxPoint x="870" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Sous-etape 4d: Marquer comme envoye -->
+        <mxCell id="step4d-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fed7e2;strokeColor=#c53030;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="870" y="360" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="step4d-title" value="4d. Marquer comme envoye" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#c53030;" vertex="1" parent="1">
+          <mxGeometry x="880" y="370" width="200" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="step4d-content" value="UPDATE mission_freelance&#xa;SET notification_envoyee&#xa;    = true&#xa;WHERE id = {missionId}&#xa;&#xa;(Evite les doublons)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#4a5568;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="880" y="395" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Boucle retour -->
+        <mxCell id="loop-arrow" value="Mission suivante" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#dd6b20;dashed=1;curved=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="980" y="470" as="sourcePoint" />
+            <mxPoint x="240" y="470" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="600" y="540" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ========== ETAPE 5: FRONTEND ========== -->
+        <mxCell id="arrow5" value="" style="endArrow=classic;html=1;strokeWidth=3;strokeColor=#805ad5;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="580" as="sourcePoint" />
+            <mxPoint x="600" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="step5-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ebf8ff;strokeColor=#3182ce;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="200" y="640" width="800" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="step5-num" value="5" style="ellipse;whiteSpace=wrap;html=1;fillColor=#3182ce;strokeColor=#2c5282;fontColor=#ffffff;fontStyle=1;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="210" y="650" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="step5-title" value="FRONTEND - Reception et affichage" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#3182ce;" vertex="1" parent="1">
+          <mxGeometry x="260" y="650" width="350" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- Frontend items -->
+        <mxCell id="front1" value="Toast&#xa;Notification" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fed7e2;strokeColor=#c53030;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="240" y="700" width="100" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="front2" value="Badge +1&#xa;(unreadCount)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c6f6d5;strokeColor=#276749;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="370" y="700" width="100" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="front3" value="Ajout a la&#xa;liste" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bee3f8;strokeColor=#2b6cb0;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="500" y="700" width="100" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="front4" value="Icone type&#xa;RAPPEL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fefcbf;strokeColor=#d69e2e;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="630" y="700" width="100" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="front5" value="Badge&#xa;&quot;Rappel&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fed7aa;strokeColor=#c05621;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="760" y="700" width="100" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Message exemple -->
+        <mxCell id="example-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f7fafc;strokeColor=#a0aec0;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="810" width="800" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="example-title" value="EXEMPLE DE MESSAGE AFFICHE:" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#718096;" vertex="1" parent="1">
+          <mxGeometry x="220" y="820" width="250" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="example-content" value="Rappel : Votre mission &quot;Developpement API REST&quot; se termine dans 3 jours (le 02/02/2026)" style="text;html=1;strokeColor=none;fillColor=#e2e8f0;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=13;fontColor=#2d3748;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="220" y="845" width="760" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- ========== LEGENDE ========== -->
+        <mxCell id="legend-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f7fafc;strokeColor=#a0aec0;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="640" width="180" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-title" value="LEGENDE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#2d3748;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="650" width="180" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff5f5;strokeColor=#c53030;" vertex="1" parent="1">
+          <mxGeometry x="1115" y="685" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1-text" value="Scheduler" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1145" y="682" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#805ad5;" vertex="1" parent="1">
+          <mxGeometry x="1115" y="710" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2-text" value="Calcul/Logique" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1145" y="707" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0fff4;strokeColor=#276749;" vertex="1" parent="1">
+          <mxGeometry x="1115" y="735" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3-text" value="Base de donnees" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1145" y="732" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fefcbf;strokeColor=#d69e2e;" vertex="1" parent="1">
+          <mxGeometry x="1115" y="760" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4-text" value="WebSocket" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1145" y="757" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ebf8ff;strokeColor=#3182ce;" vertex="1" parent="1">
+          <mxGeometry x="1115" y="785" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5-text" value="Frontend React" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1145" y="782" width="120" height="20" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="sequence-fin-mission" name="Sequence Detaillee">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Titre -->
+        <mxCell id="seq-title" value="DIAGRAMME DE SEQUENCE - RAPPEL FIN DE MISSION" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#1a365d;" vertex="1" parent="1">
+          <mxGeometry x="250" y="20" width="500" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Acteurs -->
+        <mxCell id="scheduler-actor" value="Scheduler&#xa;(9h/jour)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c53030;strokeColor=#9b2c2c;fontColor=#ffffff;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="service-actor" value="Notification&#xa;Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#805ad5;strokeColor=#6b46c1;fontColor=#ffffff;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="280" y="80" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="db-actor" value="PostgreSQL" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#276749;strokeColor=#22543d;fontColor=#ffffff;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="480" y="75" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ws-actor" value="WebSocket&#xa;Broker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d69e2e;strokeColor=#b7791f;fontColor=#ffffff;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="680" y="80" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="client-actor" value="Client React&#xa;(Freelancer)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3182ce;strokeColor=#2c5282;fontColor=#ffffff;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="880" y="80" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Lignes de vie -->
+        <mxCell id="sched-line" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#c53030;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="130" y="130" as="sourcePoint" />
+            <mxPoint x="130" y="800" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="serv-line" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#805ad5;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="130" as="sourcePoint" />
+            <mxPoint x="330" y="800" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="db-line" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#276749;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="530" y="135" as="sourcePoint" />
+            <mxPoint x="530" y="800" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ws-line" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#d69e2e;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="730" y="130" as="sourcePoint" />
+            <mxPoint x="730" y="800" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cli-line" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 4;strokeWidth=2;strokeColor=#3182ce;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="930" y="130" as="sourcePoint" />
+            <mxPoint x="930" y="800" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Messages -->
+        <!-- 1. Trigger -->
+        <mxCell id="m1" value="1. Cron trigger (9h00)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#2d3748;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="60" y="180" as="sourcePoint" />
+            <mxPoint x="130" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 2. Calculate date -->
+        <mxCell id="m2" value="2. targetDate = now + 3 days" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#2d3748;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="130" y="230" as="sourcePoint" />
+            <mxPoint x="330" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 3. Query missions -->
+        <mxCell id="m3" value="3. findByDateFinAndNotificationEnvoyeeFalse(targetDate)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#2d3748;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="280" as="sourcePoint" />
+            <mxPoint x="530" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 4. Return missions -->
+        <mxCell id="m4" value="4. List&lt;MissionFreelance&gt;" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#38a169;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="530" y="330" as="sourcePoint" />
+            <mxPoint x="330" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Loop box -->
+        <mxCell id="loop-box" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#dd6b20;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="370" width="830" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="loop-label" value="LOOP [pour chaque mission]" style="text;html=1;strokeColor=none;fillColor=#dd6b20;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="130" y="375" width="180" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- 5. Create notification -->
+        <mxCell id="m5" value="5. createAndSendNotification(freelancerId, missionId, RAPPEL_FIN_MISSION, message)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#2d3748;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="130" y="420" as="sourcePoint" />
+            <mxPoint x="330" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 6. Save notification -->
+        <mxCell id="m6" value="6. save(notification)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#2d3748;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="470" as="sourcePoint" />
+            <mxPoint x="530" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 7. Return saved -->
+        <mxCell id="m7" value="7. Notification saved" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#38a169;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="530" y="510" as="sourcePoint" />
+            <mxPoint x="330" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 8. Send WebSocket -->
+        <mxCell id="m8" value="8. convertAndSend(/topic/notifications/{freelancerId}, dto)" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#d69e2e;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="560" as="sourcePoint" />
+            <mxPoint x="730" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 9. Push to client -->
+        <mxCell id="m9" value="9. MESSAGE {notification}" style="endArrow=classic;html=1;strokeWidth=3;strokeColor=#e53e3e;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="730" y="610" as="sourcePoint" />
+            <mxPoint x="930" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="push-note" value="PUSH&#xa;(temps reel)" style="text;html=1;strokeColor=#c53030;fillColor=#fed7e2;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=9;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="795" y="585" width="70" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- 10. Update flag -->
+        <mxCell id="m10" value="10. UPDATE notification_envoyee = true" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#2d3748;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="130" y="670" as="sourcePoint" />
+            <mxPoint x="530" y="670" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Client actions -->
+        <mxCell id="client-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ebf8ff;strokeColor=#3182ce;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="870" y="640" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="client-actions" value="Actions client:&#xa;- Afficher Toast&#xa;- Mise a jour badge&#xa;- Ajouter a la liste" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#2d3748;spacingLeft=5;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="875" y="645" width="110" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- End note -->
+        <mxCell id="end-note" value="Fin de la boucle - Mission suivante ou fin du scheduler" style="text;html=1;strokeColor=#a0aec0;fillColor=#f7fafc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=2;fontColor=#718096;" vertex="1" parent="1">
+          <mxGeometry x="300" y="760" width="350" height="25" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="architecture" name="Architecture Technique">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Titre -->
+        <mxCell id="arch-title" value="ARCHITECTURE TECHNIQUE - NOTIFICATION FIN DE MISSION" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#1a365d;" vertex="1" parent="1">
+          <mxGeometry x="250" y="20" width="600" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Backend Box -->
+        <mxCell id="backend-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#faf5ff;strokeColor=#805ad5;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="60" y="100" width="520" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="backend-header" value="BACKEND (Spring Boot)" style="text;html=1;strokeColor=none;fillColor=#805ad5;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=16;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="200" y="115" width="240" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Scheduler -->
+        <mxCell id="arch-scheduler" value="MissionEndReminderScheduler&#xa;&#xa;@Scheduled(cron=&quot;0 0 9 * * *&quot;)&#xa;sendMissionEndReminders()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fed7aa;strokeColor=#c05621;fontStyle=0;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="90" y="170" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Service -->
+        <mxCell id="arch-service" value="NotificationService&#xa;&#xa;createAndSendNotification()&#xa;sendNotificationViaWebSocket()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e9d8fd;strokeColor=#805ad5;fontStyle=0;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="90" y="280" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Repository -->
+        <mxCell id="arch-repo" value="MissionFreelanceRepository&#xa;&#xa;findByDateFinAnd&#xa;NotificationEnvoyeeFalse()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c6f6d5;strokeColor=#276749;fontStyle=0;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="90" y="390" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- WebSocket Config -->
+        <mxCell id="arch-ws" value="WebSocketConfig&#xa;&#xa;Endpoint: /ws&#xa;Broker: /topic, /queue&#xa;SockJS: enabled" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fefcbf;strokeColor=#d69e2e;fontStyle=0;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="340" y="170" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- SimpMessagingTemplate -->
+        <mxCell id="arch-simp" value="SimpMessagingTemplate&#xa;&#xa;convertAndSend(&#xa;  &quot;/topic/notifications/{id}&quot;,&#xa;  notificationDTO&#xa;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fefcbf;strokeColor=#d69e2e;fontStyle=0;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="340" y="280" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Database -->
+        <mxCell id="arch-db" value="PostgreSQL&#xa;&#xa;Tables:&#xa;- notifications&#xa;- mission_freelance" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#276749;strokeColor=#22543d;fontColor=#ffffff;fontStyle=0;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="340" y="400" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Frontend Box -->
+        <mxCell id="frontend-container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ebf8ff;strokeColor=#3182ce;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="660" y="100" width="480" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="frontend-header" value="FRONTEND (React)" style="text;html=1;strokeColor=none;fillColor=#3182ce;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=16;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="780" y="115" width="240" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- WebSocket Service -->
+        <mxCell id="arch-ws-front" value="websocketService.ts&#xa;&#xa;connect(freelancerId)&#xa;subscribe(/topic/notifications/{id})&#xa;addCallback(handleNotification)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fefcbf;strokeColor=#d69e2e;fontStyle=0;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="690" y="170" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Context -->
+        <mxCell id="arch-context" value="NotificationContext.tsx&#xa;&#xa;state: notifications[], unreadCount&#xa;handleNewNotification()&#xa;- Add to list&#xa;- Show toast" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c6f6d5;strokeColor=#276749;fontStyle=0;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="690" y="290" width="200" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Components -->
+        <mxCell id="arch-bell" value="NotificationBell.tsx&#xa;&#xa;Badge avec compteur&#xa;Animation pulse" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fed7e2;strokeColor=#c53030;fontStyle=0;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="690" y="420" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="arch-item" value="NotificationItem.tsx&#xa;&#xa;Icone (rappel)&#xa;Badge orange &quot;Rappel&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fed7e2;strokeColor=#c53030;fontStyle=0;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="840" y="420" width="130" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Toast -->
+        <mxCell id="arch-toast" value="react-toastify&#xa;&#xa;Toast.info(message)&#xa;autoClose: 5000ms" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fed7aa;strokeColor=#c05621;fontStyle=0;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="920" y="170" width="180" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Libs -->
+        <mxCell id="arch-libs" value="Dependances:&#xa;- @stomp/stompjs&#xa;- sockjs-client&#xa;- react-toastify" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e2e8f0;strokeColor=#718096;fontStyle=0;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="920" y="280" width="180" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows -->
+        <mxCell id="arr1" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#805ad5;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="190" y="250" as="sourcePoint" />
+            <mxPoint x="190" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr2" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#805ad5;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="190" y="360" as="sourcePoint" />
+            <mxPoint x="190" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr3" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#d69e2e;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="290" y="320" as="sourcePoint" />
+            <mxPoint x="340" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- WebSocket arrow -->
+        <mxCell id="ws-arrow" value="WebSocket&#xa;(STOMP)" style="endArrow=classic;html=1;strokeWidth=3;strokeColor=#d69e2e;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="320" as="sourcePoint" />
+            <mxPoint x="690" y="210" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="620" y="320" />
+              <mxPoint x="620" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Frontend internal arrows -->
+        <mxCell id="arr4" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#3182ce;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="790" y="260" as="sourcePoint" />
+            <mxPoint x="790" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr5" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#3182ce;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="790" y="390" as="sourcePoint" />
+            <mxPoint x="755" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr6" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#3182ce;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="790" y="390" as="sourcePoint" />
+            <mxPoint x="905" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data flow summary -->
+        <mxCell id="flow-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f7fafc;strokeColor=#a0aec0;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="540" width="1080" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="flow-title" value="FLUX DE DONNEES - RAPPEL FIN DE MISSION" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#2d3748;" vertex="1" parent="1">
+          <mxGeometry x="400" y="550" width="350" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="flow-content" value="Scheduler (9h) -&gt; Calcul date J+3 -&gt; Query missions -&gt; Boucle: [Creer notif -&gt; Save DB -&gt; Send WebSocket] -&gt; Frontend: [Toast + Badge + Liste]" style="text;html=1;strokeColor=none;fillColor=#e2e8f0;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=12;fontColor=#2d3748;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="585" width="1040" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="flow-note" value="Anti-doublon: Le flag notification_envoyee = true empeche les rappels multiples pour la meme mission" style="text;html=1;strokeColor=none;fillColor=#fed7e2;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontColor=#c53030;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="625" width="650" height="25" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
