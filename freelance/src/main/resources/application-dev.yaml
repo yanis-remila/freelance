@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://172.31.253.115:5432/dev_freelance
+    username: dev_freelance_user
+    password: freelance
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect

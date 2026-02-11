@@ -1,0 +1,67 @@
+stages:
+  - build
+  - deploy
+  - status
+
+variables:
+  BUILD_PATH: "build"
+  ###########
+  ### DEV ###
+  ###########
+  DEV_USER: "back"
+  DEV_PASSWORD: "back"
+  DEV_HOST: "172.31.250.128"
+  DEV_PATH: "/home/back/react-app"
+  ###########
+  ### DEV ###
+  ###########
+  PPROD_USER: "front"
+  PPROD_PASSWORD: "front"
+  PPROD_HOST: "172.31.250.215"
+  PPROD_PATH: "/home/front/react-app"
+
+
+build-front:
+  stage: build
+  tags:
+    - local
+  script:
+    - if [ "$CI_COMMIT_REF_NAME" == "develop" ]; then cp .env.dev .env; fi
+    - if [ "$CI_COMMIT_REF_NAME" == "staging" ]; then cp .env.pprod .env; fi
+    - if [ "$CI_COMMIT_REF_NAME" == "master" ]; then cp .env.prod .env; fi
+    - apt-get update -y
+    - apt-get install -y nodejs npm
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - $BUILD_PATH
+
+deploy-front:
+  stage: deploy
+  tags:
+    - local
+  dependencies:
+    - build-front
+  script:
+    - |
+      if [ "$CI_COMMIT_REF_NAME" == "develop" ]; then
+        TARGET_USER=$DEV_USER
+        TARGET_PASSWORD=$DEV_PASSWORD
+        TARGET_HOST=$DEV_HOST
+        TARGET_PATH=$DEV_PATH
+      elif [ "$CI_COMMIT_REF_NAME" == "staging" ]; then
+        TARGET_USER=$PPROD_USER
+        TARGET_PASSWORD=$PPROD_PASSWORD
+        TARGET_HOST=$PPROD_HOST
+        TARGET_PATH=$PPROD_PATH
+      else
+        echo "Branch not recognized for deployment. Exiting..."
+        exit 1
+      fi
+    - apt-get update -qq && apt-get install -qqy sshpass
+    - sshpass -p "$TARGET_PASSWORD" ssh -o StrictHostKeyChecking=no $TARGET_USER@$TARGET_HOST "rm -rf $TARGET_PATH"
+    - sshpass -p "$TARGET_PASSWORD" scp -r -o StrictHostKeyChecking=no $BUILD_PATH $TARGET_USER@$TARGET_HOST:$TARGET_PATH
+    - sshpass -p "$TARGET_PASSWORD" ssh -o StrictHostKeyChecking=no $TARGET_USER@$TARGET_HOST "echo '$TARGET_PASSWORD' | sudo -S systemctl restart nginx"
+
+

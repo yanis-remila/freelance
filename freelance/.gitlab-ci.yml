@@ -1,0 +1,104 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  JAR_FILE: "target/freelance-*.jar"
+
+  ###############
+  ### Env DEV ###
+  ###############
+  DEV_USER: "devback"
+  DEV_PASSWORD: "devback"
+  DEV_HOST: "172.31.250.191"
+  DEV_PATH: "/home/devback/freelance.jar"
+  #################
+  ### Env PPROD ###
+  #################
+  PPROD_USER: "pprodback"
+  PPROD_PASSWORD: "pprodback"
+  PPROD_HOST: "172.31.249.254"
+  PPROD_PATH: "/home/pprodback/freelance.jar"
+  #################
+  ### Env PROD ###
+  #################
+  PROD_USER: "prodback"
+  PROD_PASSWORD: "prodback"
+  PROD_HOST: "172.31.249.44"
+  PROD_PATH: "/home/prodback/freelance.jar"
+
+cache:
+  paths:
+    - ~/.m2/repository
+
+#################
+### Build job ###
+#################
+build-job:
+  stage: build
+  tags:
+    - local
+  script:
+    - mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - $JAR_FILE
+
+################
+### Test job ###
+################
+test-job:
+  stage: test
+  tags:
+    - local
+  dependencies:
+    - build-job
+  script:
+    - mvn test
+  artifacts:
+    paths:
+      - target/surefire-reports/*.xml
+      - target/surefire-reports/*.txt
+    reports:
+      junit: target/surefire-reports/*.xml
+
+##################
+### Deploy job ###
+##################
+deploy-job:
+  stage: deploy
+  tags:
+    - local
+  dependencies:
+    - build-job
+  script:
+    - |
+      if [ "$CI_COMMIT_REF_NAME" == "develop" ]; then
+        TARGET_USER=$DEV_USER
+        TARGET_PASSWORD=$DEV_PASSWORD
+        TARGET_HOST=$DEV_HOST
+        TARGET_PATH=$DEV_PATH
+      elif [ "$CI_COMMIT_REF_NAME" == "staging" ]; then
+        TARGET_USER=$PPROD_USER
+        TARGET_PASSWORD=$PPROD_PASSWORD
+        TARGET_HOST=$PPROD_HOST
+        TARGET_PATH=$PPROD_PATH
+      elif [ "$CI_COMMIT_REF_NAME" == "master" ]; then
+        TARGET_USER=$PROD_USER
+        TARGET_PASSWORD=$PROD_PASSWORD
+        TARGET_HOST=$PROD_HOST
+        TARGET_PATH=$PROD_PATH
+      else
+        echo "Branch not recognized for deployment. Exiting..."
+        exit 1
+      fi
+    - echo "Deploying to $TARGET_HOST"
+    - apt-get update -qq && apt-get install -qqy sshpass
+    - sshpass -p "$TARGET_PASSWORD" scp -o StrictHostKeyChecking=no $JAR_FILE $TARGET_USER@$TARGET_HOST:$TARGET_PATH
+    - sshpass -p "$TARGET_PASSWORD" ssh -o StrictHostKeyChecking=no $TARGET_USER@$TARGET_HOST "echo '$TARGET_PASSWORD' | sudo -S systemctl restart freelance"
+  only:
+    - develop
+    - staging
+    - master
+    - HamzaBranch

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test WebSocket Notifications</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        h1 { color: #333; }
+        h2 { color: #666; margin-top: 0; }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover { background-color: #0056b3; }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        button.danger { background-color: #dc3545; }
+        button.danger:hover { background-color: #c82333; }
+        button.success { background-color: #28a745; }
+        button.success:hover { background-color: #218838; }
+        #status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .connected { background-color: #d4edda; color: #155724; }
+        .disconnected { background-color: #f8d7da; color: #721c24; }
+        #notifications {
+            border: 1px solid #ddd;
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        .notification {
+            background-color: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 4px solid #007bff;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .notification .type {
+            font-weight: bold;
+            color: #007bff;
+            font-size: 12px;
+        }
+        .notification .message { margin: 5px 0; }
+        .notification .time {
+            font-size: 11px;
+            color: #999;
+        }
+        .log {
+            font-family: monospace;
+            font-size: 12px;
+            color: #666;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test WebSocket Notifications</h1>
+
+    <!-- Connexion WebSocket -->
+    <div class="container">
+        <h2>1. Connexion WebSocket</h2>
+        <label>Freelancer ID: </label>
+        <input type="number" id="freelancerId" value="1" min="1">
+        <br><br>
+        <button id="connectBtn" onclick="connect()">Se connecter</button>
+        <button id="disconnectBtn" class="danger" onclick="disconnect()" disabled>Se déconnecter</button>
+        <div id="status" class="disconnected">Déconnecté</div>
+    </div>
+
+    <!-- Envoi de notification test -->
+    <div class="container">
+        <h2>2. Envoyer une notification de test</h2>
+        <label>Mission ID: </label>
+        <input type="number" id="missionId" value="42" min="1">
+        <br><br>
+        <button class="success" onclick="sendTestNotification()">Envoyer notification test</button>
+        <button onclick="triggerScheduler()">Déclencher le scheduler</button>
+    </div>
+
+    <!-- Notifications reçues -->
+    <div class="container">
+        <h2>3. Notifications reçues</h2>
+        <button onclick="clearNotifications()">Effacer</button>
+        <div id="notifications"></div>
+    </div>
+
+    <script>
+        let stompClient = null;
+        let connected = false;
+
+        function connect() {
+            const freelancerId = document.getElementById('freelancerId').value;
+
+            if (!freelancerId) {
+                alert('Veuillez entrer un ID de freelancer');
+                return;
+            }
+
+            // Créer la connexion SockJS
+            const socket = new SockJS('/ws');
+            stompClient = Stomp.over(socket);
+
+            // Désactiver les logs STOMP dans la console (optionnel)
+            // stompClient.debug = null;
+
+            stompClient.connect({}, function(frame) {
+                connected = true;
+                updateStatus(true);
+                addLog('Connecté au serveur WebSocket');
+                addLog('Frame: ' + frame);
+
+                // S'abonner au canal de notifications
+                const destination = '/topic/notifications/' + freelancerId;
+                stompClient.subscribe(destination, function(message) {
+                    const notification = JSON.parse(message.body);
+                    displayNotification(notification);
+                });
+                addLog('Abonné au canal: ' + destination);
+
+            }, function(error) {
+                connected = false;
+                updateStatus(false);
+                addLog('Erreur de connexion: ' + error);
+            });
+        }
+
+        function disconnect() {
+            if (stompClient !== null) {
+                stompClient.disconnect();
+            }
+            connected = false;
+            updateStatus(false);
+            addLog('Déconnecté du serveur');
+        }
+
+        function updateStatus(isConnected) {
+            const statusDiv = document.getElementById('status');
+            const connectBtn = document.getElementById('connectBtn');
+            const disconnectBtn = document.getElementById('disconnectBtn');
+
+            if (isConnected) {
+                statusDiv.textContent = 'Connecté au freelancer ID: ' + document.getElementById('freelancerId').value;
+                statusDiv.className = 'connected';
+                connectBtn.disabled = true;
+                disconnectBtn.disabled = false;
+            } else {
+                statusDiv.textContent = 'Déconnecté';
+                statusDiv.className = 'disconnected';
+                connectBtn.disabled = false;
+                disconnectBtn.disabled = true;
+            }
+        }
+
+        function displayNotification(notification) {
+            const container = document.getElementById('notifications');
+            const div = document.createElement('div');
+            div.className = 'notification';
+            div.innerHTML = `
+                <div class="type">${notification.type}</div>
+                <div class="message">${notification.message}</div>
+                <div class="time">
+                    ID: ${notification.id} |
+                    Mission: ${notification.missionId} |
+                    ${new Date(notification.createdAt).toLocaleString()}
+                </div>
+            `;
+            container.insertBefore(div, container.firstChild);
+        }
+
+        function addLog(message) {
+            const container = document.getElementById('notifications');
+            const div = document.createElement('div');
+            div.className = 'log';
+            div.textContent = '[LOG] ' + new Date().toLocaleTimeString() + ' - ' + message;
+            container.insertBefore(div, container.firstChild);
+        }
+
+        function clearNotifications() {
+            document.getElementById('notifications').innerHTML = '';
+        }
+
+        async function sendTestNotification() {
+            const freelancerId = document.getElementById('freelancerId').value;
+            const missionId = document.getElementById('missionId').value;
+
+            try {
+                const response = await fetch(`/api/test/notification/send?freelancerId=${freelancerId}&missionId=${missionId}`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                addLog('Notification envoyée via API: ' + JSON.stringify(data));
+            } catch (error) {
+                addLog('Erreur: ' + error.message);
+            }
+        }
+
+        async function triggerScheduler() {
+            try {
+                const response = await fetch('/api/test/scheduler/trigger', {
+                    method: 'POST'
+                });
+                const text = await response.text();
+                addLog('Scheduler déclenché: ' + text);
+            } catch (error) {
+                addLog('Erreur: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
